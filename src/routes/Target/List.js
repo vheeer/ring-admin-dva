@@ -580,13 +580,13 @@ export default class TableList extends PureComponent {
       <Form onSubmit={this.handleSearch} layout="inline">
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
           <Col md={8} sm={24}>
-            <FormItem label="订单编号">
-              {getFieldDecorator('order_sn')(<Input placeholder="请输入" />)}
+            <FormItem label="数据编号">
+              {getFieldDecorator('id')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem label="用户ID">
-              {getFieldDecorator('user_id')(<Input placeholder="请输入" />)}
+            <FormItem label="公司名">
+              {getFieldDecorator('name')(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
@@ -606,56 +606,71 @@ export default class TableList extends PureComponent {
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="电话">
-              {form.getFieldDecorator('mobile', {
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="注册资本">
+              {form.getFieldDecorator('capital', {
                 rules: [{ required: false, message: '请输入电话' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="开始时间">
-              {form.getFieldDecorator('start_time', {
-                rules: [{ required: false, message: '请输入开始时间' }],
+            <FormItem label="注册日期">
+              {getFieldDecorator('create_time')(
+                <DatePicker
+                  onChange={this.handleDateChange}
+                  style={{ width: '100%' }}
+                  placeholder="请输入注册日期"
+                />
+              )}
+            </FormItem>
+          </Col>
+          <Col md={8} sm={24}>
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="联系方式">
+              {form.getFieldDecorator('contact', {
+                rules: [{ required: false, message: '请输入联系方式' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="结束时间">
-              {form.getFieldDecorator('end_time', {
-                rules: [{ required: false, message: '请输入结束时间' }],
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="地址">
+              {form.getFieldDecorator('address', {
+                rules: [{ required: false, message: '请输入地址' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="订单价格">
-              {form.getFieldDecorator('order_price', {
-                rules: [{ required: false, message: '请输入订单价格' }],
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="网站">
+              {form.getFieldDecorator('website', {
+                rules: [{ required: false, message: '请输入网站' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="实际价格">
-              {form.getFieldDecorator('actual_price', {
-                rules: [{ required: false, message: '请输入实际价格' }],
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="经营范围">
+              {form.getFieldDecorator('scope', {
+                rules: [{ required: false, message: '请输入经营范围' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
           <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="单价">
-              {form.getFieldDecorator('unit_price', {
-                rules: [{ required: false, message: '请输入单价' }],
-              })(<Input placeholder="请输入" />)}
-            </FormItem>
-          </Col>
-          <Col md={8} sm={24}>
-            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="单位">
-              {form.getFieldDecorator('unit', {
+            <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="拨号人ID">
+              {form.getFieldDecorator('custom_id', {
                 rules: [{ required: false, message: '请输入单位' }],
               })(<Input placeholder="请输入" />)}
             </FormItem>
           </Col>
         </Row>
         <Row gutter={{ md: 8, lg: 24, xl: 48 }}>
+          <Col md={8} sm={24}>
+            <FormItem label="拨号日期">
+              {getFieldDecorator('ring_time')(
+                <DatePicker
+                  onChange={this.handleDateChange}
+                  style={{ width: '100%' }}
+                  placeholder="请输入拨号日期"
+                />
+              )}
+            </FormItem>
+          </Col>
           <Col md={8} sm={24}>
             <FormItem label="添加日期">
               {getFieldDecorator('add_time')(
@@ -763,9 +778,9 @@ export default class TableList extends PureComponent {
         title: '企业网址',
         dataIndex: 'website',
         render: (val, record) => {
-          return <Vpop val={val} record={record} max={8} />;
+          return <Vpop val={val} record={record} max={1} />;
         },
-        width: 200,
+        width: 10,
       },
       {
         title: '状态',
@@ -833,6 +848,17 @@ export default class TableList extends PureComponent {
           return text;
         },
         width: 150
+      },
+      {
+        title: '拨号人ID',
+        dataIndex: 'custom_id',
+        width: 60
+      },
+      {
+        title: '拨号时间',
+        dataIndex: 'ring_time',
+        render: val => val === ''?null:<span>{moment(val * 1000).format('YYYY-MM-DD HH:mm:ss')}</span>,
+        width: 170,
       },
       {
         title: '备注',
